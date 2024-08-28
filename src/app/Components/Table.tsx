@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Data } from "../../app/styles/common";
+import { Data, TableProps } from "../../app/styles/common";
 import useFind from "../Hooks/useFind";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -9,24 +9,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 
-const TableData = () => {
-  const [datos, setData] = useState<Data[] | undefined>();
-  const [url, setUrl] = useState("");
-  const { data, error, isLoading } = useFind(url);
-
-  useEffect(() => {
-    if (url && data) {
-      setUrl("");
-    }
-    if (!data) setUrl("/api/scraping");
-  }, []);
-
-  useEffect(() => {
-    if (!datos) {
-      setData(data);
-    }
-  }, [data]);
-
+const TableData = ({ data, dataFiltered }: TableProps) => {
   return (
     <>
       <TableContainer style={{ paddingTop: "25px", placeItems: "center" }}>
@@ -75,44 +58,81 @@ const TableData = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {datos &&
-              datos.map((row: Data, i: number) => (
-                // {filteredData.map((row: any, i: number) => (
-                <TableRow
-                  key={i}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell
-                    component="th"
-                    scope="row"
-                    width={"w-min"}
-                    style={{ borderBottom: "1px solid black" }}
+            {dataFiltered
+              ? dataFiltered.map((row: Data, i: number) => (
+                  // {filteredData.map((row: any, i: number) => (
+                  <TableRow
+                    key={i}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
-                    {row.number}
-                  </TableCell>
-                  <TableCell
-                    align="left"
-                    width={"w-min"}
-                    style={{ borderBottom: "1px solid black" }}
+                    <TableCell
+                      component="th"
+                      scope="row"
+                      width={"w-min"}
+                      style={{ borderBottom: "1px solid black" }}
+                    >
+                      {row.number}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      width={"w-min"}
+                      style={{ borderBottom: "1px solid black" }}
+                    >
+                      {row.title}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      width={"w-min"}
+                      style={{ borderBottom: "1px solid black" }}
+                    >
+                      {row.points}{" "}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      width={"w-min"}
+                      style={{ borderBottom: "1px solid black" }}
+                    >
+                      {row.comments}
+                    </TableCell>
+                  </TableRow>
+                ))
+              : data &&
+                data.map((row: Data, i: number) => (
+                  <TableRow
+                    key={i}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
-                    {row.title}
-                  </TableCell>
-                  <TableCell
-                    align="left"
-                    width={"w-min"}
-                    style={{ borderBottom: "1px solid black" }}
-                  >
-                    {row.points}{" "}
-                  </TableCell>
-                  <TableCell
-                    align="left"
-                    width={"w-min"}
-                    style={{ borderBottom: "1px solid black" }}
-                  >
-                    {row.comments}
-                  </TableCell>
-                </TableRow>
-              ))}
+                    <TableCell
+                      component="th"
+                      scope="row"
+                      width={"w-min"}
+                      style={{ borderBottom: "1px solid black" }}
+                    >
+                      {row.number}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      width={"w-min"}
+                      style={{ borderBottom: "1px solid black" }}
+                    >
+                      {row.title}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      width={"w-min"}
+                      style={{ borderBottom: "1px solid black" }}
+                    >
+                      {row.points}{" "}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      width={"w-min"}
+                      style={{ borderBottom: "1px solid black" }}
+                    >
+                      {row.comments}
+                    </TableCell>
+                  </TableRow>
+                ))}
           </TableBody>
         </Table>
       </TableContainer>

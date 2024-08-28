@@ -23,7 +23,9 @@ const getData = async (req: any, res: any) => {
       const title = document
         .getElementById(item.id)
         ?.getElementsByClassName("titleline")[0].firstChild?.textContent;
-      const points = document.getElementById(`score_${item.id}`)?.textContent;
+      const points = Number(
+        document.getElementById(`score_${item.id}`)?.textContent?.split(" ")[0]
+      );
       let comments;
       const commentTag = document
         .getElementsByClassName("subtext")
@@ -32,13 +34,17 @@ const getData = async (req: any, res: any) => {
       if (
         commentTag?.getAttribute("href")?.split("=")[1] === item.id.toString()
       ) {
-        comments = commentTag?.textContent;
-      } else comments = "0 comments";
+        comments = Number(
+          commentTag?.textContent
+            ?.replace(new RegExp(String.fromCharCode(160), "g"), " ")
+            .split(" ")[0]
+        );
+      } else comments = 0;
       data.push({
         number: index + 1,
         title: title ?? "No title",
-        points: points ?? "0 points",
-        comments: comments ?? "No comments",
+        points: points ? points : 0,
+        comments: comments ? comments : 0,
       });
     }
 
