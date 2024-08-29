@@ -1,10 +1,12 @@
 import { JSDOM } from "jsdom";
+import { NextApiRequest, NextApiResponse } from "next";
 
-const getData = async (req: any, res: any) => {
+const getData = async (req: NextApiRequest, res: NextApiResponse) => {
   let data = [];
   const response = await fetch("https://news.ycombinator.com", {
-    cache: "force-cache", //!revisar cache
+    cache: "default",
   });
+
   if (response.ok) {
     const body = await response.text();
     const contents = new JSDOM(body);
@@ -48,7 +50,68 @@ const getData = async (req: any, res: any) => {
       });
     }
 
-    res.send(data);
+    let dataFiltered = data;
+    const filter = async (filterSelected: string) => {
+      if (filterSelected === ">5words") {
+        const strRegex = "[^A-Za-z0-9]";
+
+        dataFiltered = dataFiltered?.filter((elm, i) => {
+          return elm.title ? elm.title.split(" ").length > 5 : false;
+        });
+        dataFiltered = dataFiltered?.sort((a, b) => {
+          const aComments: number = a.comments ?? 0;
+          const bComments: number = b.comments ?? 0;
+          if (aComments < bComments) {
+            return +1;
+          }
+          if (aComments > bComments) {
+            return -1;
+          }
+
+          return 0;
+        });
+      }
+      if (filterSelected === "<5words") {
+        //   const strRegex = "[^A-Za-z0-9]";
+
+        dataFiltered = dataFiltered?.filter((elm, i) => {
+          return elm.title ? elm.title.split(" ").length <= 5 : false;
+        });
+        dataFiltered = dataFiltered?.sort((a, b) => {
+          const aPoints: number = a.points ?? 0;
+          const bPoints: number = b.points ?? 0;
+          if (aPoints < bPoints) {
+            return +1;
+          }
+          if (aPoints > bPoints) {
+            return -1;
+          }
+
+          return 0;
+        });
+      }
+      if (filterSelected === "reset") dataFiltered = data;
+
+      res.send([
+        dataFiltered,
+        {
+          timeStamp: new Date(),
+          filterApplied: filterSelected === "reset" ? "None" : filterSelected,
+          ipAddress: req?.headers["x-forwarded-for"],
+        },
+      ]);
+    };
+    if (req.headers.filters) filter(req.headers.filters as string);
+
+    if (!req.headers.filters)
+      res.send([
+        data,
+        {
+          timeStamp: new Date(),
+          filterApplied: "None",
+          ipAddress: req?.headers["x-forwarded-for"],
+        },
+      ]);
   }
   if (!response.ok) {
     return response.statusText;
