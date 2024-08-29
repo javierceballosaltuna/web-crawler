@@ -1,18 +1,26 @@
 import { JSDOM } from "jsdom";
 import { NextApiRequest, NextApiResponse } from "next";
 
-const getData = async (req: NextApiRequest, res: NextApiResponse) => {
+const findScrapData = async (req: NextApiRequest, res: NextApiResponse) => {
+  //Declare data variable to insert the first 30 results on it with the fields we are interested on
   let data = [];
+  //GET request to external URL provided
   const response = await fetch("https://news.ycombinator.com", {
     cache: "default",
   });
-
+  //When successful:
   if (response.ok) {
+
+    //Convert response to String and then transform it using JSDOM to an object with all Tags within HTML 
     const body = await response.text();
     const contents = new JSDOM(body);
-    const byids = contents.window.document.getElementsByClassName("athing");
 
-    for (let item of byids) {
+    //Filter all HTML elements by ClassName "athing" which is the Class to identify each of the table-results on the external URL
+    const filteredByClassName = contents.window.document.getElementsByClassName("athing");
+
+    //Iterate on each one of them to manipulate DOM and extract the values of each field we are interested on, as follos:
+    //title, points and comments
+    for (let item of filteredByClassName) {
       const document = contents.window.document;
       const index =
         Number(
@@ -22,7 +30,7 @@ const getData = async (req: NextApiRequest, res: NextApiResponse) => {
             .textContent?.replace(".", "")
         ) - 1;
 
-      const title = document
+      let title = document
         .getElementById(item.id)
         ?.getElementsByClassName("titleline")[0].firstChild?.textContent;
       const points = Number(
@@ -39,9 +47,12 @@ const getData = async (req: NextApiRequest, res: NextApiResponse) => {
         comments = Number(
           commentTag?.textContent
             ?.replace(new RegExp(String.fromCharCode(160), "g"), " ")
-            .split(" ")[0]
+            .split(" ")[0] 
         );
       } else comments = 0;
+       title = title?.replaceAll(/\W\s\:/g, '')
+
+      // Insert each result with the desired format on our previously declared "data" variable
       data.push({
         number: index + 1,
         title: title ?? "No title",
@@ -51,7 +62,11 @@ const getData = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     let dataFiltered = data;
+
+    //Filtering which will be executed depending on we have filters on the request headers or not. 
     const filter = async (filterSelected: string) => {
+
+      //filtering titles with >5words and order by comments (decided to do it descendant)
       if (filterSelected === ">5words") {
         const strRegex = "[^A-Za-z0-9]";
 
@@ -71,6 +86,8 @@ const getData = async (req: NextApiRequest, res: NextApiResponse) => {
           return 0;
         });
       }
+
+      //filtering titles with <5words and order by points (decided to do it descendant)
       if (filterSelected === "<5words") {
         //   const strRegex = "[^A-Za-z0-9]";
 
@@ -90,10 +107,13 @@ const getData = async (req: NextApiRequest, res: NextApiResponse) => {
           return 0;
         });
       }
+      //When clearing filters, return original not filtered data
       if (filterSelected === "reset") dataFiltered = data;
 
       res.send([
         dataFiltered,
+
+      // Here is where we add Usage data to the request response
         {
           timeStamp: new Date(),
           filterApplied: filterSelected === "reset" ? "None" : filterSelected,
@@ -103,6 +123,7 @@ const getData = async (req: NextApiRequest, res: NextApiResponse) => {
     };
     if (req.headers.filters) filter(req.headers.filters as string);
 
+    //if there are no filters, simply return data plus Usage data
     if (!req.headers.filters)
       res.send([
         data,
@@ -118,4 +139,4 @@ const getData = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-export default getData;
+export default findScrapData;

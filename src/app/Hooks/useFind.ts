@@ -1,6 +1,6 @@
 import useSWR from "swr";
-import { dbData } from "../styles/common";
 
+//CustomHook GET scrap data
 const useFind = (url: string, filters?: HeadersInit) => {
   const fetcher = (e: any) => {
     if (!url) return;

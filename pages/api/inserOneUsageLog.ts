@@ -9,9 +9,7 @@ const client = new MongoClient(uri ?? '', {
     deprecationErrors: true,
   },
 });
-const InsertOneBobina = async (req: NextApiRequest, res: NextApiResponse) => {
-  let data;
-  let error = "nothing to display";
+const InsertOneUsageLog = async (req: NextApiRequest, res: NextApiResponse) => {
 
   try {
     const connection = await client.connect();
@@ -25,7 +23,7 @@ const InsertOneBobina = async (req: NextApiRequest, res: NextApiResponse) => {
   } finally {
     client.close();
   }
-  return { data, error };
+//   return { data, error };
 };
 
-export default InsertOneBobina;
+export default InsertOneUsageLog;

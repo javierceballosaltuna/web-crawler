@@ -1,4 +1,6 @@
 
+//Types used throughout the app
+
 export type Data = {
     number: number,
     title?: string;

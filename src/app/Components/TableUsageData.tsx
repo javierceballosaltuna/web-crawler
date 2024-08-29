@@ -10,6 +10,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import useFindUsageData from "../Hooks/useFindUsageData";
 
+//Function Component rendering USage table with data store on Mongodb
 const TableData = () => {
   const [value, setTrue] = useState("");
   const { data: dbData, error, isLoading } = useFindUsageData(value);

@@ -15,37 +15,50 @@ const Main = () => {
   const [dataFiltered, setDataFiltered] = useState<Data[] | undefined>();
   const [url, setUrl] = useState("");
   const [tab, setTab] = useState(0);
-  const [radioChecked, setRadioChecked] = useState<dbData['filterApplied']>(undefined)
+  const [radioChecked, setRadioChecked] =
+    useState<dbData["filterApplied"]>(undefined);
   const [open, setOpen] = useState(false);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setTab(newValue);
   };
+
+  // CustomHook to execute GET and scrap data
   const {
     data: rawData,
     error,
     isLoading,
-  } = useFind(url, filter ? {filters: filter} : undefined);
+  } = useFind(url, filter ? { filters: filter } : undefined);
+
+  // CustomHook to execute POST and insert Usage data log with {timeStamp, filtersApplied and ipAddress}
   const { data: newData, error: newError } = useInsertUsageData(
     insertUsageURL,
     JSON.stringify(rawData ? rawData[1] : null)
   );
-//USEEFFECT INICIAL
+  const RAWDATA = rawData ?? null;
+
+  // Initial useffect that retrieves scrap data
+
+  console.log(url, rawData);
   useEffect(() => {
-    console.log(url, 'url', rawData, 'rawdata')
-    if (url) {
+    console.log(url, "url", rawData, "rawdata");
+    if (url && rawData) {
       setUrl("");
     }
-    if (!rawData) setUrl("/api/scraping");
+    if (!rawData && !url) {
+      console.log("entra aqui", url, rawData);
+      setUrl("/api/findScrapData");
+    }
   }, [url]);
-
+  // Saves scrap data on useState and triggers POST to ddbb to save the log
   useEffect(() => {
     if (rawData) {
-        setData(rawData[0]);
-      setInsertUsageURL("/api/inserOne");
+      setData(rawData[0]);
+      setInsertUsageURL("/api/inserOneUsageLog");
     }
   }, [rawData]);
 
+  // stops executing POST to ddbb saving Usage data
   useEffect(() => {
     if (insertUsageURL) {
       setInsertUsageURL("");
@@ -73,13 +86,7 @@ const Main = () => {
           {data && <TableData data={data} dataFiltered={dataFiltered} />}
         </>
       )}
-      {tab === 1 && (
-        // <div
-        //   id="container"
-        //   className="flex w-[100%] justify-start mt-[100px]"
-        // ></div>
-        <TableUsageData />
-      )}
+      {tab === 1 && <TableUsageData />}
     </>
   );
 };

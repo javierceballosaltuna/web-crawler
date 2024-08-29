@@ -11,7 +11,7 @@ const client = new MongoClient(uri ?? "", {
   },
 });
 
-const useCallForBobinas = async (
+const findUsageData = async (
   req?: NextApiRequest,
   res?: NextApiResponse
 ) => {
@@ -29,4 +29,4 @@ const useCallForBobinas = async (
   }
 };
 
-export default useCallForBobinas;
+export default findUsageData;

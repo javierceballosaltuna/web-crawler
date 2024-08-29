@@ -4,14 +4,14 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
-import { dbData, FiltersProps } from "../styles/common";
+import { FiltersProps } from "../styles/common";
 
+
+//Function component to render Filter options (as Radiogroup)
 const Filters = ({
-  data,
   radioChecked,
   setRadioChecked,
   setFilter,
-  setDataFiltered,
 }: FiltersProps) => {
   return (
     <FormControl>
