@@ -38,15 +38,11 @@ const Main = () => {
   const RAWDATA = rawData ?? null;
 
   // Initial useffect that retrieves scrap data
-
-  console.log(url, rawData);
   useEffect(() => {
-    console.log(url, "url", rawData, "rawdata");
     if (url && rawData) {
       setUrl("");
     }
     if (!rawData && !url) {
-      console.log("entra aqui", url, rawData);
       setUrl("/api/findScrapData");
     }
   }, [url]);
@@ -67,7 +63,7 @@ const Main = () => {
   return (
     <>
       <Box>
-        <div className="flex justify-between mb-10">
+        <div className="flex justify-between mb-10" data-testid={'Tabs'}>
           <Tabs value={tab} onChange={handleChange}>
             <Tab label="Main Page" />
             <Tab label="Usage Data" />

@@ -20,9 +20,11 @@ const Filters = ({
         row
         aria-labelledby="demo-row-radio-buttons-group-label"
         name="row-radio-buttons-group"
+        data-testid={'Radiogroup'}
       >
         <FormControlLabel
           value=">5words"
+          data-testid={'>5words'}
           onClick={(e: React.SyntheticEvent) => {
             if (e) {
               setRadioChecked(">5words");
@@ -35,6 +37,7 @@ const Filters = ({
         />
         <FormControlLabel
           value="<5words"
+          data-testid={'<5words'}
           onClick={(e: React.SyntheticEvent) => {
             if (e) {
               setRadioChecked("<5words");
@@ -47,6 +50,7 @@ const Filters = ({
         />
         <FormControlLabel
           value="reset"
+          data-testid={'reset'}
           onClick={(e: React.SyntheticEvent) => {
             if (e) {
               setRadioChecked("reset");

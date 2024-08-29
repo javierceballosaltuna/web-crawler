@@ -12,10 +12,11 @@ import TableRow from "@mui/material/TableRow";
 const TableData = ({ data, dataFiltered }: TableProps) => {
   return (
     <>
-      <TableContainer style={{ paddingTop: "25px", placeItems: "center" }}>
+      <TableContainer style={{ paddingTop: "25px", placeItems: "center" }} >
         <Table
           aria-label="simple table"
           style={{ width: "fit", border: "1px solid grey" }}
+          data-testid={'main-data-table'}
         >
           <TableHead>
             <TableRow>
@@ -25,6 +26,7 @@ const TableData = ({ data, dataFiltered }: TableProps) => {
                   borderBottom: "1px solid black",
                   fontWeight: "bold",
                 }}
+                data-testid={'number-col'}
               >
                 ID
               </TableCell>
@@ -34,6 +36,7 @@ const TableData = ({ data, dataFiltered }: TableProps) => {
                   borderBottom: "1px solid black",
                   fontWeight: "bold",
                 }}
+                data-testid={'title-col'}
               >
                 Title
               </TableCell>
@@ -43,6 +46,7 @@ const TableData = ({ data, dataFiltered }: TableProps) => {
                   borderBottom: "1px solid black",
                   fontWeight: "bold",
                 }}
+                data-testid={'points-col'}
               >
                 Points
               </TableCell>
@@ -52,6 +56,7 @@ const TableData = ({ data, dataFiltered }: TableProps) => {
                   borderBottom: "1px solid black",
                   fontWeight: "bold",
                 }}
+                data-testid={'comments-col'}
               >
                 Comments
               </TableCell>
