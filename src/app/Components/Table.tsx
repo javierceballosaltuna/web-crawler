@@ -1,7 +1,6 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Data, TableProps } from "../../app/styles/common";
-import useFind from "../Hooks/useFind";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -9,6 +8,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 
+//Function Component rendering Main table with Scrap data
 const TableData = ({ data, dataFiltered }: TableProps) => {
   return (
     <>
