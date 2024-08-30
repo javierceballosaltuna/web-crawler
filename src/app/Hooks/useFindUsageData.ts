@@ -2,7 +2,7 @@ import useSWR from "swr";
 
 //CustomHook POST usage data from Mongodb (Mongodb states using POST method even to perform GET requests)
 const useFindUsageData = (url: string) => {
-  const fetcher = (e: any) => {
+  const fetcher = () => {
     if (!url) return;
     return fetch(url, {
       method: "POST",

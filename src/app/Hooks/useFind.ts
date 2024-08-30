@@ -2,7 +2,7 @@ import useSWR from "swr";
 
 //CustomHook GET scrap data
 const useFind = (url: string, filters?: HeadersInit) => {
-  const fetcher = (e: any) => {
+  const fetcher = () => {
     if (!url) return;
     return fetch(url,{headers: filters})
       .then(async (res) => {

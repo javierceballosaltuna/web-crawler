@@ -27,6 +27,7 @@ const TableData = () => {
         <Table
           aria-label="simple table"
           style={{ width: "fit", border: "1px solid grey" }}
+          data-testid={"usage-data-table"}
         >
           <TableHead>
             <TableRow>
@@ -36,6 +37,7 @@ const TableData = () => {
                   borderBottom: "1px solid black",
                   fontWeight: "bold",
                 }}
+                data-testid={"timestamp-col"}
               >
                 TimeStamp
               </TableCell>
@@ -45,6 +47,7 @@ const TableData = () => {
                   borderBottom: "1px solid black",
                   fontWeight: "bold",
                 }}
+                data-testid={"filter-applied-col"}
               >
                 Filter
               </TableCell>
@@ -54,6 +57,7 @@ const TableData = () => {
                   borderBottom: "1px solid black",
                   fontWeight: "bold",
                 }}
+                data-testid={"ip-address-col"}
               >
                 IP
               </TableCell>
@@ -62,7 +66,6 @@ const TableData = () => {
           <TableBody>
             {dbData &&
               dbData.map((row: dbData, i: number) => (
-                // {filteredData.map((row: any, i: number) => (
                 <TableRow
                   key={i}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
