@@ -1,9 +1,9 @@
 import { MongoClient, ServerApiVersion } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
 
-// Please ask me for username and password so you can connect to my mongodb (your user is already created)
+// Please ask me for username, password and cluster so you can connect to my mongodb (your user is already created)
 const uri =
-  "mongodb+srv://<username>:<password>@clusterfj.lkwpogu.mongodb.net/?retryWrites=true&w=majority&appName=ClusterFJ";
+  "mongodb+srv://<username>:<password>@<cluster>.lkwpogu.mongodb.net/?retryWrites=true&w=majority&appName=<cluster>";
 const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
