@@ -64,8 +64,7 @@ const TableData = ({ data, dataFiltered }: TableProps) => {
           </TableHead>
           <TableBody>
             {dataFiltered
-              ? dataFiltered.map((row: Data, i: number) => (
-                  // {filteredData.map((row: any, i: number) => (
+              ? dataFiltered.map((row: Data, i: number) => (          
                   <TableRow
                     key={i}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}

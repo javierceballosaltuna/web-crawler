@@ -1,8 +1,8 @@
 import useSWR from "swr";
 
 //CustomHook POST usage log from Client to Mongodb
-const useInsertUsageData = (url: string, usageData: any) => {
-  const fetcher = (e: any) => {
+const useInsertUsageData = (url: string, usageData: BodyInit) => {
+  const fetcher = () => {
     if (!url || !usageData) return;
     return fetch(url, {
       method: "POST",

@@ -1,8 +1,9 @@
 import { MongoClient, ServerApiVersion } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
 
-const uri = process.env.NEXT_PUBLIC_MONGOURI;
-const client = new MongoClient(uri ?? '', {
+const uri =
+  "mongodb+srv://stackBuilders:stackBuilders@clusterfj.lkwpogu.mongodb.net/?retryWrites=true&w=majority&appName=ClusterFJ";
+const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
     strict: true,
@@ -10,7 +11,6 @@ const client = new MongoClient(uri ?? '', {
   },
 });
 const InsertOneUsageLog = async (req: NextApiRequest, res: NextApiResponse) => {
-
   try {
     const connection = await client.connect();
     const db = connection.db("StackBuilders");
@@ -23,7 +23,7 @@ const InsertOneUsageLog = async (req: NextApiRequest, res: NextApiResponse) => {
   } finally {
     client.close();
   }
-//   return { data, error };
+  //   return { data, error };
 };
 
 export default InsertOneUsageLog;
