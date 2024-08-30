@@ -1,5 +1,3 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
 ## Getting Started
 
 First, run the development server:
@@ -8,29 +6,58 @@ First, run the development server:
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Repository Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### Main Page
 
-## Learn More
+http://localhost:3000 will display Main Page with scrap data taken from the external URL provided by the testers and displayed on a table.
 
-To learn more about Next.js, take a look at the following resources:
+GET requests to external URL are made:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- On Page load
+- On Filter applying
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Note: when hitting the button "Clear Filters" a new GET request without filters will be triggered.
 
-## Deploy on Vercel
+POST requests to Mongodb Atlas database will be done right after GET responses, saving user usage details as requested by the testers.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Usage Page
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+When switching tab to Usage Data, a POST request to extract usage data will be made to Mongodb Atlas. Note that even for making "GET" requests, Mongodb states method has to be POST.
+
+Usage Data will be displayed on a table with no filters.
+
+## Endpoint nomenclature
+
+- findScrapData.ts - GET
+- findUsageData.ts - POST
+- insertOneUsageLog.ts - POST
+  
+## Important to note
+
+In order to have access to Mongodb Atlas database, you will need to add temporary credentials that the project owner will provide when requested under authorization. 
+
+## Dependencies 
+
+- mui
+- jsdom
+- mongodb
+- mongoose
+- next
+- react
+- react-dom
+- swr
+- tailwind
+- eslint
+- jest
+- react-testing-library
+
+## Contributions and Questions
+
+Feel free to share your feedback and ideas. 
+
+Thank you for your contributions!
