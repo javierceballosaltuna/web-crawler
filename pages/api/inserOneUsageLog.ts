@@ -1,8 +1,9 @@
 import { MongoClient, ServerApiVersion } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
 
+// Please ask me for username and password so you can connect to my mongodb (your user is already created)
 const uri =
-  "mongodb+srv://stackBuilders:stackBuilders@clusterfj.lkwpogu.mongodb.net/?retryWrites=true&w=majority&appName=ClusterFJ";
+  "mongodb+srv://<username>:<password>@clusterfj.lkwpogu.mongodb.net/?retryWrites=true&w=majority&appName=ClusterFJ";
 const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
